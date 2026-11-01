@@ -1,5 +1,5 @@
+@import '@fontsource-variable/bricolage-grotesque';
 @import '@fontsource-variable/manrope';
-@import '@fontsource-variable/sora';
 @import '@fontsource-variable/newsreader';
 @import '@fontsource-variable/newsreader/wght-italic.css';
 @import '@fontsource-variable/jetbrains-mono';
@@ -7,19 +7,23 @@
 
 @theme {
   --font-sans: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Sora Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque Variable', ui-sans-serif, system-ui, sans-serif;
   --font-serif: 'Newsreader Variable', ui-serif, Georgia, serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, monospace;
 
-  --color-ink: #080a0f;
-  --color-ink-soft: #0b0e15;
+  --color-ink: #06070a;
+  --color-ink-soft: #0b0d12;
   --color-surface: #10141c;
   --color-surface-light: #151a24;
   --color-line: rgba(255, 255, 255, 0.08);
-  --color-line-strong: rgba(255, 255, 255, 0.15);
+  --color-line-strong: rgba(255, 255, 255, 0.16);
   --color-accent: #d8ff65;
   --color-accent-dim: #afcf4b;
-  --color-sky: #8aaaff;
+  --color-sky: #8aa6ff;
+  --color-ember: #ff8b6b;
+  --color-bone: #f2efe6;
+  --color-bone-dim: #d8d3c5;
+  --color-sage: #a7b0a0;
   --color-muted: #a0a8b6;
   --color-faint: #7b8595;
 }
@@ -33,16 +37,16 @@
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 6rem;
-    background-color: #080a0f;
+    scroll-padding-top: 6.5rem;
+    background-color: #06070a;
     color-scheme: dark;
   }
 
   body {
     margin: 0;
     min-width: 320px;
-    overflow-x: hidden;
-    background-color: #080a0f;
+    overflow-x: clip;
+    background-color: #06070a;
     color: #f3f5fa;
     font-family: var(--font-sans);
     font-synthesis: none;
@@ -59,9 +63,9 @@
     pointer-events: none;
     content: '';
     background:
-      radial-gradient(46rem 36rem at 88% -5%, rgba(91, 123, 255, 0.11), transparent 70%),
-      radial-gradient(38rem 30rem at 2% 48%, rgba(216, 255, 101, 0.045), transparent 72%),
-      radial-gradient(34rem 28rem at 70% 102%, rgba(110, 82, 255, 0.06), transparent 72%);
+      radial-gradient(52rem 40rem at 92% -8%, rgba(91, 123, 255, 0.12), transparent 70%),
+      radial-gradient(40rem 32rem at -4% 42%, rgba(216, 255, 101, 0.05), transparent 72%),
+      radial-gradient(36rem 30rem at 72% 104%, rgba(255, 139, 107, 0.045), transparent 72%);
   }
 
   body::after {
@@ -70,7 +74,7 @@
     z-index: 100;
     pointer-events: none;
     content: '';
-    opacity: 0.022;
+    opacity: 0.024;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
@@ -81,8 +85,8 @@
   }
 
   ::selection {
-    background: rgba(216, 255, 101, 0.88);
-    color: #080a0f;
+    background: rgba(216, 255, 101, 0.9);
+    color: #06070a;
   }
 
   :focus-visible {
@@ -130,11 +134,11 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #080a0f;
+    background: #06070a;
   }
 
   ::-webkit-scrollbar-thumb {
-    border: 2px solid #080a0f;
+    border: 2px solid #06070a;
     border-radius: 999px;
     background: #262c37;
   }
@@ -162,7 +166,7 @@
 @layer components {
   .container-shell {
     width: 100%;
-    max-width: 80rem;
+    max-width: 82rem;
     margin-inline: auto;
     padding-inline: clamp(1.25rem, 4vw, 3rem);
   }
@@ -170,7 +174,7 @@
   .section-shell {
     position: relative;
     overflow-x: clip;
-    padding-block: clamp(5.5rem, 10vw, 9.5rem);
+    padding-block: clamp(5.75rem, 10vw, 10rem);
   }
 
   .eyebrow {
@@ -185,23 +189,31 @@
   .glass {
     border: 1px solid rgba(255, 255, 255, 0.09);
     background:
-      linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
-      rgba(11, 14, 21, 0.72);
+      linear-gradient(150deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.012)),
+      rgba(11, 14, 21, 0.74);
     box-shadow:
-      0 24px 80px rgba(0, 0, 0, 0.32),
-      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      0 28px 90px rgba(0, 0, 0, 0.36),
+      inset 0 1px 0 rgba(255, 255, 255, 0.045);
     backdrop-filter: blur(18px);
+  }
+
+  .panel {
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    background:
+      linear-gradient(160deg, rgba(255, 255, 255, 0.032), rgba(255, 255, 255, 0.008)),
+      rgba(10, 13, 19, 0.78);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
   }
 
   .btn {
     display: inline-flex;
-    min-height: 3.15rem;
+    min-height: 3.2rem;
     align-items: center;
     justify-content: center;
     gap: 0.625rem;
     border: 1px solid transparent;
     border-radius: 999px;
-    padding: 0.8rem 1.25rem;
+    padding: 0.82rem 1.35rem;
     font-size: 0.875rem;
     font-weight: 700;
     line-height: 1;
@@ -220,13 +232,13 @@
   .btn-primary {
     border-color: var(--color-accent);
     background: var(--color-accent);
-    color: #080a0f;
-    box-shadow: 0 10px 36px rgba(216, 255, 101, 0.12);
+    color: #06070a;
+    box-shadow: 0 12px 40px rgba(216, 255, 101, 0.14);
   }
 
   .btn-primary:hover {
-    background: #e4ff8d;
-    box-shadow: 0 14px 42px rgba(216, 255, 101, 0.18);
+    background: #e6ff96;
+    box-shadow: 0 16px 48px rgba(216, 255, 101, 0.2);
   }
 
   .btn-secondary {
@@ -237,8 +249,20 @@
   }
 
   .btn-secondary:hover {
-    border-color: rgba(255, 255, 255, 0.26);
-    background: rgba(255, 255, 255, 0.065);
+    border-color: rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .btn-ink {
+    border-color: #06070a;
+    background: #06070a;
+    color: #f2efe6;
+    box-shadow: 0 12px 34px rgba(6, 7, 10, 0.18);
+  }
+
+  .btn-ink:hover {
+    background: #161922;
+    box-shadow: 0 16px 40px rgba(6, 7, 10, 0.24);
   }
 
   .icon-button {
@@ -274,7 +298,7 @@
     border-radius: 999px;
     background: var(--color-accent);
     padding: 0.75rem 1rem;
-    color: #080a0f;
+    color: #06070a;
     font-size: 0.8125rem;
     font-weight: 800;
     transition: transform 160ms ease;
@@ -288,7 +312,7 @@
     width: 100%;
     border: 1px solid rgba(255, 255, 255, 0.09);
     border-radius: 0.875rem;
-    background: rgba(255, 255, 255, 0.028);
+    background: rgba(255, 255, 255, 0.03);
     padding: 0.9rem 1rem;
     color: #f3f5fa;
     font-size: 0.9375rem;
@@ -309,7 +333,7 @@
 
   .field:focus {
     border-color: rgba(216, 255, 101, 0.55);
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.045);
     outline: none;
     box-shadow: 0 0 0 3px rgba(216, 255, 101, 0.07);
   }
@@ -344,30 +368,76 @@
     background-size: 18px 18px;
   }
 
+  .dot-grid-ink {
+    background-image: radial-gradient(rgba(6, 7, 10, 0.16) 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+
+  .spotlight {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .spotlight::before {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      22rem circle at var(--spot-x, 50%) var(--spot-y, 0%),
+      rgba(216, 255, 101, 0.1),
+      transparent 62%
+    );
+    content: '';
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 360ms ease;
+  }
+
+  .spotlight:hover::before,
+  .spotlight:focus-within::before {
+    opacity: 1;
+  }
+
   .project-card {
     box-shadow:
-      0 20px 70px rgba(0, 0, 0, 0.24),
-      inset 0 1px 0 rgba(255, 255, 255, 0.035);
+      0 24px 80px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
     transition:
-      transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 350ms ease,
-      box-shadow 350ms ease;
+      transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 380ms ease,
+      box-shadow 380ms ease;
   }
 
   .project-card:hover {
     transform: translateY(-6px);
-    border-color: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.18);
     box-shadow:
-      0 32px 90px rgba(0, 0, 0, 0.36),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      0 36px 100px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.055);
   }
 
   .project-visual {
-    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .project-card:hover .project-visual {
-    transform: scale(1.018);
+    transform: scale(1.02);
+  }
+
+  .marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, black 7%, black 93%, transparent);
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 34s linear infinite;
+  }
+
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
   }
 
   .terminal-line {
@@ -391,6 +461,34 @@
 
   .ecg-ready-dot {
     animation: ecg-ready-pulse 2.4s ease-in-out infinite;
+  }
+
+  .orbital-spin {
+    animation: orbital-spin 28s linear infinite;
+  }
+
+  .orbital-spin-reverse {
+    animation: orbital-spin 40s linear infinite reverse;
+  }
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes orbital-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -419,7 +517,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ecg-scroll,
-  .ecg-ready-dot {
+  .ecg-ready-dot,
+  .marquee-track,
+  .orbital-spin,
+  .orbital-spin-reverse {
     animation: none;
     transform: none;
     will-change: auto;

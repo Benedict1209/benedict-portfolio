@@ -9,6 +9,7 @@ import { Hero } from './components/Hero'
 import { Navbar } from './components/Navbar'
 import { Projects } from './components/Projects'
 import { Skills } from './components/Skills'
+import { ScrollProgress } from './components/ui/ScrollProgress'
 
 function App() {
   useEffect(() => {
@@ -27,6 +28,7 @@ function App() {
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
+      <ScrollProgress />
       <Navbar />
       <main id="main-content">
         <Hero />

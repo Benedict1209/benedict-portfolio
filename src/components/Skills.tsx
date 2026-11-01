@@ -1,61 +1,8 @@
-import {
-  BrainCircuit,
-  Code2,
-  Database,
-  LayoutTemplate,
-  Server,
-} from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+import { ArrowUpRight, Layers } from 'lucide-react'
+import { skillGroups } from '../lib/content'
 import { Reveal } from './ui/Reveal'
 import { SectionHeading } from './ui/SectionHeading'
-
-type SkillGroup = {
-  title: string
-  description: string
-  skills: string[]
-  icon: LucideIcon
-  span: string
-  highlighted?: boolean
-}
-
-const skillGroups: SkillGroup[] = [
-  {
-    title: 'Programming Languages',
-    description: 'The languages I use to reason through problems, structure logic, and build solutions.',
-    skills: ['Python', 'C++', 'Java', 'PHP'],
-    icon: Code2,
-    span: 'md:col-span-2 xl:col-span-7',
-  },
-  {
-    title: 'Frontend Development',
-    description: 'Turning layouts and interactions into responsive, considered interfaces.',
-    skills: ['HTML', 'CSS', 'JavaScript', 'Bootstrap'],
-    icon: LayoutTemplate,
-    span: 'md:col-span-2 xl:col-span-5',
-  },
-  {
-    title: 'Backend & Frameworks',
-    description: 'Connecting interfaces to application logic, APIs, and local environments.',
-    skills: ['Flask', 'JSON APIs', 'XAMPP'],
-    icon: Server,
-    span: 'xl:col-span-4',
-  },
-  {
-    title: 'Data Processing',
-    description: 'Shaping and preparing data before it reaches a model or application.',
-    skills: ['SQL', 'pandas', 'Data Preprocessing'],
-    icon: Database,
-    span: 'xl:col-span-4',
-  },
-  {
-    title: 'Machine Learning',
-    description: 'Exploring practical classification and prediction through data-driven projects.',
-    skills: ['Random Forest', 'Predictive Modeling'],
-    icon: BrainCircuit,
-    span: 'md:col-span-2 xl:col-span-4',
-    highlighted: true,
-  },
-]
+import { SpotlightCard } from './ui/SpotlightCard'
 
 export function Skills() {
   return (
@@ -70,17 +17,17 @@ export function Skills() {
             <SectionHeading
               index="02"
               eyebrow="Technical skills"
-              title={
+              title={[
+                'The tools behind',
                 <>
-                  The tools behind
-                  <br />
                   the <span className="font-serif font-normal text-accent italic">work.</span>
-                </>
-              }
+                </>,
+              ]}
               description="A practical toolkit shaped by coursework, projects, and hands-on learning — from writing Python logic to shaping responsive interfaces."
             />
-            <div className="hidden max-w-[13rem] border-l border-white/10 pl-5 lg:block">
-              <span className="font-mono text-[0.54rem] tracking-[0.16em] text-faint uppercase">
+            <div className="hidden max-w-[15rem] border-l border-white/10 pl-5 lg:block">
+              <span className="flex items-center gap-2 font-mono text-[0.54rem] tracking-[0.16em] text-faint uppercase">
+                <Layers className="h-3 w-3 text-accent/70" strokeWidth={1.8} aria-hidden="true" />
                 Approach
               </span>
               <p className="mt-2 text-[0.8rem] leading-6 text-muted">
@@ -90,69 +37,77 @@ export function Skills() {
           </div>
         </Reveal>
 
-        <div className="mt-12 grid gap-3.5 md:grid-cols-2 xl:grid-cols-12">
-          {skillGroups.map(({ title, description, skills, icon: Icon, span, highlighted }, index) => (
-            <Reveal key={title} className={span} delay={index * 0.045}>
-              <article
-                className={`group relative h-full overflow-hidden rounded-[1.35rem] border p-6 transition duration-300 hover:-translate-y-1 sm:p-7 ${
-                  highlighted
-                    ? 'border-accent/[0.16] bg-[linear-gradient(145deg,rgba(216,255,101,0.055),rgba(255,255,255,0.018))] hover:border-accent/[0.28]'
-                    : 'border-white/[0.07] bg-white/[0.02] hover:border-white/[0.14] hover:bg-white/[0.032]'
-                }`}
-              >
-                {highlighted ? (
+        <div className="mt-12 grid grid-cols-1 gap-3.5 md:grid-cols-2 xl:grid-cols-12">
+          {skillGroups.map(
+            ({ title, description, skills, icon: Icon, span, highlighted }, index) => (
+              <Reveal key={title} className={span} delay={index * 0.045}>
+                <SpotlightCard
+                  as="article"
+                  className={`group relative h-full overflow-hidden rounded-[1.4rem] border p-6 transition duration-300 hover:-translate-y-1 sm:p-7 ${
+                    highlighted
+                      ? 'border-accent/[0.16] bg-[linear-gradient(145deg,rgba(216,255,101,0.055),rgba(255,255,255,0.018))] hover:border-accent/[0.28]'
+                      : 'border-white/[0.07] bg-white/[0.02] hover:border-white/[0.14] hover:bg-white/[0.032]'
+                  }`}
+                >
                   <div
-                    className="pointer-events-none absolute -top-20 -right-16 h-48 w-48 rounded-full bg-accent/[0.06] blur-3xl"
+                    className="pointer-events-none absolute -top-20 -right-16 h-48 w-48 rounded-full bg-accent/[0.06] opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
                     aria-hidden="true"
                   />
-                ) : null}
 
-                <div className="relative flex items-start justify-between">
-                  <span
-                    className={`flex h-10 w-10 items-center justify-center rounded-xl border transition ${
-                      highlighted
-                        ? 'border-accent/20 bg-accent/[0.075] text-accent'
-                        : 'border-white/[0.08] bg-white/[0.035] text-accent/75 group-hover:border-accent/20 group-hover:text-accent'
-                    }`}
-                  >
-                    <Icon className="h-[1.15rem] w-[1.15rem]" strokeWidth={1.65} aria-hidden="true" />
-                  </span>
-                  <span className="font-mono text-[0.52rem] tracking-[0.15em] text-faint">
-                    0{index + 1}
-                  </span>
-                </div>
-
-                <h3 className="relative mt-6 font-display text-[1.05rem] font-semibold tracking-[-0.025em] text-white sm:text-[1.13rem]">
-                  {title}
-                </h3>
-                <p className="relative mt-2 max-w-md text-[0.8rem] leading-6 text-faint">
-                  {description}
-                </p>
-
-                <ul className="relative mt-6 flex flex-wrap gap-2" aria-label={`${title} skills`}>
-                  {skills.map((skill) => (
-                    <li
-                      key={skill}
-                      className={`rounded-full border px-3 py-1.5 text-[0.68rem] font-semibold transition ${
+                  <div className="relative z-10 flex items-start justify-between">
+                    <span
+                      className={`flex h-10 w-10 items-center justify-center rounded-xl border transition ${
                         highlighted
-                          ? 'border-accent/15 bg-accent/[0.045] text-white/80 group-hover:border-accent/25'
-                          : 'border-white/[0.08] bg-black/15 text-white/65 group-hover:border-white/[0.14] group-hover:text-white/85'
+                          ? 'border-accent/20 bg-accent/[0.075] text-accent'
+                          : 'border-white/[0.08] bg-white/[0.035] text-accent/75 group-hover:border-accent/20 group-hover:text-accent'
                       }`}
                     >
-                      {skill}
-                    </li>
-                  ))}
-                </ul>
+                      <Icon className="h-[1.15rem] w-[1.15rem]" strokeWidth={1.65} aria-hidden="true" />
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-[0.52rem] tracking-[0.15em] text-faint">
+                        0{index + 1}
+                      </span>
+                      <ArrowUpRight
+                        className="h-3.5 w-3.5 text-white/15 transition group-hover:text-accent/70"
+                        strokeWidth={1.8}
+                        aria-hidden="true"
+                      />
+                    </div>
+                  </div>
 
-                <span
-                  className="pointer-events-none absolute -right-8 -bottom-10 font-display text-[6.5rem] font-bold tracking-[-0.08em] text-white/[0.018] transition duration-500 group-hover:text-white/[0.028]"
-                  aria-hidden="true"
-                >
-                  0{index + 1}
-                </span>
-              </article>
-            </Reveal>
-          ))}
+                  <h3 className="relative z-10 mt-6 font-display text-[1.05rem] font-semibold tracking-[-0.025em] text-white sm:text-[1.13rem]">
+                    {title}
+                  </h3>
+                  <p className="relative z-10 mt-2 max-w-md text-[0.8rem] leading-6 text-faint">
+                    {description}
+                  </p>
+
+                  <ul className="relative z-10 mt-6 flex flex-wrap gap-2" aria-label={`${title} skills`}>
+                    {skills.map((skill) => (
+                      <li
+                        key={skill}
+                        className={`rounded-full border px-3 py-1.5 text-[0.68rem] font-semibold transition ${
+                          highlighted
+                            ? 'border-accent/15 bg-accent/[0.045] text-white/80 group-hover:border-accent/25'
+                            : 'border-white/[0.08] bg-black/15 text-white/65 group-hover:border-white/[0.14] group-hover:text-white/85'
+                        }`}
+                      >
+                        {skill}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <span
+                    className="pointer-events-none absolute -right-8 -bottom-10 font-display text-[6.5rem] font-bold tracking-[-0.08em] text-white/[0.022] transition duration-500 group-hover:text-white/[0.035]"
+                    aria-hidden="true"
+                  >
+                    0{index + 1}
+                  </span>
+                </SpotlightCard>
+              </Reveal>
+            ),
+          )}
         </div>
 
         <Reveal delay={0.1}>

@@ -70,22 +70,22 @@ export function CropSentinelVisual() {
             <span className="text-[0.55rem] font-semibold text-white/70">Weather</span>
           </div>
 
-          <div className="absolute bottom-[24%] left-[7%] flex items-center gap-1.5 rounded-md border border-white/[0.08] bg-[#08130d]/90 px-2 py-1.5 backdrop-blur-sm">
+          <div className="absolute bottom-[24%] left-[7%] hidden items-center gap-1.5 rounded-md border border-white/[0.08] bg-[#08130d]/90 px-2 py-1.5 backdrop-blur-sm sm:flex">
             <History className="h-3 w-3 text-[#b7a0ff]" strokeWidth={1.8} aria-hidden="true" />
             <span className="text-[0.55rem] font-semibold text-white/70">Outbreak records</span>
           </div>
 
           <div className="absolute right-3 bottom-3 left-3 flex items-center justify-between gap-3 rounded-lg border border-accent/[0.12] bg-[#0b1710]/95 px-3 py-2.5">
-            <div className="flex items-center gap-2.5">
-              <ShieldAlert className="h-4 w-4 text-accent/80" strokeWidth={1.7} aria-hidden="true" />
-              <div>
+            <div className="flex min-w-0 items-center gap-2.5">
+              <ShieldAlert className="h-4 w-4 flex-none text-accent/80" strokeWidth={1.7} aria-hidden="true" />
+              <div className="min-w-0">
                 <span className="block text-[0.56rem] font-bold text-white/80">Early warning</span>
                 <span className="block font-mono text-[0.43rem] tracking-[0.08em] text-faint uppercase">
                   Risk alerts · Hotspot tracking
                 </span>
               </div>
             </div>
-            <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2 py-1 font-mono text-[0.42rem] tracking-[0.08em] text-faint uppercase">
+            <span className="hidden flex-none rounded-full border border-white/[0.08] bg-white/[0.04] px-2 py-1 font-mono text-[0.42rem] tracking-[0.08em] text-faint uppercase sm:inline-flex">
               Signal
             </span>
           </div>
