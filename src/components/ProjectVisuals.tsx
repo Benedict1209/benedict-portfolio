@@ -111,6 +111,20 @@ export function CropSentinelVisual() {
   )
 }
 
+const ECG_TILE_WIDTH = 144
+const ecgTileOrigins = [0, ECG_TILE_WIDTH, ECG_TILE_WIDTH * 2, ECG_TILE_WIDTH * 3]
+
+const ecgTracePath = ecgTileOrigins
+  .map(
+    (x) =>
+      `M${x} 48 H${x + 11} L${x + 20} 44 L${x + 34} 48 L${x + 43} 34 L${x + 54} 70 L${x + 66} 16 L${x + 78} 58 L${x + 90} 48 H${x + 144}`,
+  )
+  .join(' ')
+
+const ecgPeakPath = ecgTileOrigins
+  .map((x) => `M${x + 54} 70 L${x + 66} 16 L${x + 78} 58`)
+  .join(' ')
+
 export function HeartDiseaseVisual() {
   return (
     <div className="relative h-full min-h-[23rem] overflow-hidden bg-[#070b12] p-4 sm:p-6">
@@ -144,7 +158,7 @@ export function HeartDiseaseVisual() {
               Signal monitor
             </span>
             <span className="flex items-center gap-1.5 font-mono text-[0.44rem] tracking-[0.1em] text-sky/75 uppercase">
-              <span className="h-1.5 w-1.5 rounded-full bg-sky" aria-hidden="true" />
+              <span className="ecg-ready-dot h-1.5 w-1.5 rounded-full bg-sky" aria-hidden="true" />
               Ready
             </span>
           </div>
@@ -162,22 +176,48 @@ export function HeartDiseaseVisual() {
                 <stop offset="82%" stopColor="#8aaaff" stopOpacity="0.7" />
                 <stop offset="100%" stopColor="#8aaaff" stopOpacity="0" />
               </linearGradient>
-              <filter id="ecg-glow">
+              <filter id="ecg-glow" x="-4%" y="-55%" width="108%" height="210%">
                 <feGaussianBlur stdDeviation="2.2" result="coloredBlur" />
                 <feMerge>
                   <feMergeNode in="coloredBlur" />
                   <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
+              <filter id="ecg-peak-glow" x="-4%" y="-80%" width="108%" height="260%">
+                <feGaussianBlur stdDeviation="2.8" result="peakBlur" />
+                <feMerge>
+                  <feMergeNode in="peakBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <mask id="ecg-wave-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="420" height="88">
+                <path
+                  className="ecg-scroll"
+                  d={ecgTracePath}
+                  fill="none"
+                  stroke="#ffffff"
+                  strokeWidth="1.7"
+                  strokeLinejoin="round"
+                />
+              </mask>
+              <mask id="ecg-peak-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="420" height="88">
+                <path
+                  className="ecg-scroll"
+                  d={ecgPeakPath}
+                  fill="none"
+                  stroke="#ffffff"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </mask>
             </defs>
-            <path
-              d="M0 48 H54 L65 44 L74 48 L88 48 L97 34 L108 70 L120 16 L132 58 L144 48 H198 L207 45 L216 48 L232 48 L241 36 L252 68 L262 22 L273 56 L284 48 H340 L349 44 L358 48 H420"
-              fill="none"
-              stroke="url(#ecg-stroke)"
-              strokeWidth="1.7"
-              strokeLinejoin="round"
-              filter="url(#ecg-glow)"
-            />
+            <g filter="url(#ecg-glow)">
+              <rect width="420" height="88" fill="url(#ecg-stroke)" mask="url(#ecg-wave-mask)" />
+            </g>
+            <g filter="url(#ecg-peak-glow)" opacity="0.55">
+              <rect width="420" height="88" fill="url(#ecg-stroke)" mask="url(#ecg-peak-mask)" />
+            </g>
           </svg>
           <div className="mt-1 flex items-center justify-between border-t border-white/[0.05] pt-2">
             <span className="font-mono text-[0.44rem] tracking-[0.08em] text-faint uppercase">

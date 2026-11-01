@@ -383,4 +383,45 @@
     text-align: right;
     user-select: none;
   }
+
+  .ecg-scroll {
+    animation: ecg-signal-scroll 1.2s linear infinite;
+    will-change: transform;
+  }
+
+  .ecg-ready-dot {
+    animation: ecg-ready-pulse 2.4s ease-in-out infinite;
+  }
+}
+
+@keyframes ecg-signal-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-144px, 0, 0);
+  }
+}
+
+@keyframes ecg-ready-pulse {
+  0%,
+  100% {
+    opacity: 0.72;
+    box-shadow: 0 0 0 0 rgba(138, 170, 255, 0.34);
+  }
+
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 0 3px rgba(138, 170, 255, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ecg-scroll,
+  .ecg-ready-dot {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
 }
