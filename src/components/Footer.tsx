@@ -1,5 +1,5 @@
 import { ArrowUp, ArrowUpRight, Mail } from 'lucide-react'
-import { navItems, site } from '../lib/site'
+import { gmailComposeUrl, navItems, site } from '../lib/site'
 import { SocialLinks } from './ui/SocialLinks'
 
 const footerLinks = [
@@ -31,7 +31,9 @@ export function Footer() {
               consistency, and a willingness to learn.
             </p>
             <a
-              href={`mailto:${site.email}`}
+              href={gmailComposeUrl()}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group mt-5 inline-flex items-center gap-2 text-[0.77rem] font-semibold text-white/65 transition hover:text-accent"
             >
               <Mail className="h-3.5 w-3.5" strokeWidth={1.8} aria-hidden="true" />

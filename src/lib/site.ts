@@ -16,6 +16,25 @@ export const site = {
     'To pursue a career in software development where I can apply my programming knowledge, problem-solving abilities, and technical skills to develop effective solutions. Eager to gain practical experience, learn emerging technologies, and contribute to organizational growth while continuously improving my expertise.',
 } as const
 
+export const contactSubject = 'Portfolio inquiry'
+export const contactMessage =
+  "Hi Benedict,\n\nI came across your portfolio and would like to connect with you about an opportunity, collaboration, or idea.\n\nLooking forward to hearing from you."
+
+export function gmailComposeUrl(
+  subject: string = contactSubject,
+  body: string = contactMessage,
+): string {
+  const params = new URLSearchParams({
+    view: 'cm',
+    fs: '1',
+    to: site.email,
+    su: subject,
+    body,
+  })
+
+  return `https://mail.google.com/mail/?${params.toString()}`
+}
+
 export const navItems = [
   { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },

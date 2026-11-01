@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import type { ChangeEvent, FormEvent } from 'react'
 import { useState } from 'react'
-import { site } from '../lib/site'
+import { gmailComposeUrl, site } from '../lib/site'
 import { GitHubIcon, LinkedInIcon } from './ui/BrandIcons'
 import { Reveal } from './ui/Reveal'
 
@@ -33,9 +33,9 @@ const contactLinks = [
   {
     label: 'Email',
     value: site.email,
-    href: `mailto:${site.email}`,
+    href: gmailComposeUrl(),
     icon: Mail,
-    external: false,
+    external: true,
   },
   {
     label: 'Phone',
@@ -119,10 +119,10 @@ export function Contact() {
 
     const subject = `Portfolio inquiry — ${values.subject.trim()}`
     const body = `Hi Benedict,\n\n${values.message.trim()}\n\n— ${values.name.trim()}\n${values.email.trim()}`
-    const href = `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    const href = gmailComposeUrl(subject, body)
 
     setDraftHref(href)
-    window.location.href = href
+    window.open(href, '_blank', 'noopener,noreferrer')
   }
 
   const fields: {
@@ -247,7 +247,9 @@ export function Contact() {
               <p className="mt-6 text-[0.72rem] leading-5 text-faint">
                 Prefer a direct note? Email me at{' '}
                 <a
-                  href={`mailto:${site.email}`}
+                  href={gmailComposeUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="font-semibold text-white/70 underline decoration-white/20 underline-offset-4 transition hover:text-accent hover:decoration-accent/40"
                 >
                   {site.email}
@@ -340,12 +342,12 @@ export function Contact() {
                 </div>
 
                 <p className="mt-4 text-[0.64rem] leading-5 text-faint">
-                  This form opens your email app with the message ready to send. Nothing is sent or
-                  stored by this website.
+                  This form opens a Gmail draft in a new tab with the message ready to send.
+                  Nothing is sent or stored by this website.
                 </p>
 
                 <button type="submit" className="btn btn-primary mt-5 w-full">
-                  Open email draft
+                  Open Gmail draft
                   <Send className="h-3.5 w-3.5" strokeWidth={1.9} aria-hidden="true" />
                 </button>
 
@@ -354,11 +356,13 @@ export function Contact() {
                     <div className="mt-4 flex gap-3 rounded-xl border border-accent/20 bg-accent/[0.055] p-3.5">
                       <MailCheck className="mt-0.5 h-4 w-4 flex-none text-accent" strokeWidth={1.8} aria-hidden="true" />
                       <div>
-                        <p className="text-[0.72rem] font-bold text-white/85">Email draft ready.</p>
+                        <p className="text-[0.72rem] font-bold text-white/85">Gmail draft ready.</p>
                         <p className="mt-1 text-[0.66rem] leading-5 text-muted">
-                          No message has been sent from this site. If your email app didn't open,{' '}
+                          No message has been sent from this site. If the Gmail tab didn't open,{' '}
                           <a
                             href={draftHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="font-semibold text-accent underline decoration-accent/30 underline-offset-2"
                           >
                             open the draft manually
