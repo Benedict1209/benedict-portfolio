@@ -70,22 +70,22 @@ export function CropSentinelVisual() {
             <span className="text-[0.55rem] font-semibold text-white/70">Weather</span>
           </div>
 
-          <div className="absolute bottom-[24%] left-[7%] flex items-center gap-1.5 rounded-md border border-white/[0.08] bg-[#08130d]/90 px-2 py-1.5 backdrop-blur-sm">
-            <History className="h-3 w-3 text-[#b7a0ff]" strokeWidth={1.8} aria-hidden="true" />
+          <div className="absolute bottom-[24%] left-[7%] hidden items-center gap-1.5 rounded-md border border-white/[0.08] bg-[#08130d]/90 px-2 py-1.5 backdrop-blur-sm sm:flex">
+            <History className="h-3 w-3 text-[#a97bb5]" strokeWidth={1.8} aria-hidden="true" />
             <span className="text-[0.55rem] font-semibold text-white/70">Outbreak records</span>
           </div>
 
           <div className="absolute right-3 bottom-3 left-3 flex items-center justify-between gap-3 rounded-lg border border-accent/[0.12] bg-[#0b1710]/95 px-3 py-2.5">
-            <div className="flex items-center gap-2.5">
-              <ShieldAlert className="h-4 w-4 text-accent/80" strokeWidth={1.7} aria-hidden="true" />
-              <div>
+            <div className="flex min-w-0 items-center gap-2.5">
+              <ShieldAlert className="h-4 w-4 flex-none text-accent/80" strokeWidth={1.7} aria-hidden="true" />
+              <div className="min-w-0">
                 <span className="block text-[0.56rem] font-bold text-white/80">Early warning</span>
                 <span className="block font-mono text-[0.43rem] tracking-[0.08em] text-faint uppercase">
                   Risk alerts · Hotspot tracking
                 </span>
               </div>
             </div>
-            <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2 py-1 font-mono text-[0.42rem] tracking-[0.08em] text-faint uppercase">
+            <span className="hidden flex-none rounded-full border border-white/[0.08] bg-white/[0.04] px-2 py-1 font-mono text-[0.42rem] tracking-[0.08em] text-faint uppercase sm:inline-flex">
               Signal
             </span>
           </div>
@@ -157,7 +157,7 @@ export function HeartDiseaseVisual() {
             <span className="font-mono text-[0.46rem] tracking-[0.12em] text-faint uppercase">
               Signal monitor
             </span>
-            <span className="flex items-center gap-1.5 font-mono text-[0.44rem] tracking-[0.1em] text-sky/75 uppercase">
+            <span className="flex items-center gap-1.5 font-mono text-[0.44rem] tracking-[0.1em] text-sky uppercase">
               <span className="ecg-ready-dot h-1.5 w-1.5 rounded-full bg-sky" aria-hidden="true" />
               Ready
             </span>
@@ -170,11 +170,11 @@ export function HeartDiseaseVisual() {
           >
             <defs>
               <linearGradient id="ecg-stroke" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#8aaaff" stopOpacity="0" />
-                <stop offset="18%" stopColor="#8aaaff" stopOpacity="0.7" />
-                <stop offset="50%" stopColor="#d8ff65" />
-                <stop offset="82%" stopColor="#8aaaff" stopOpacity="0.7" />
-                <stop offset="100%" stopColor="#8aaaff" stopOpacity="0" />
+                <stop offset="0%" stopColor="#4089dd" stopOpacity="0" />
+                <stop offset="18%" stopColor="#4089dd" stopOpacity="0.7" />
+                <stop offset="50%" stopColor="#f48c18" />
+                <stop offset="82%" stopColor="#4089dd" stopOpacity="0.7" />
+                <stop offset="100%" stopColor="#4089dd" stopOpacity="0" />
               </linearGradient>
               <filter id="ecg-glow" x="-4%" y="-55%" width="108%" height="210%">
                 <feGaussianBlur stdDeviation="2.2" result="coloredBlur" />
@@ -223,7 +223,7 @@ export function HeartDiseaseVisual() {
             <span className="font-mono text-[0.44rem] tracking-[0.08em] text-faint uppercase">
               13 health-related features
             </span>
-            <span className="font-mono text-[0.44rem] tracking-[0.08em] text-white/35 uppercase">
+            <span className="font-mono text-[0.44rem] tracking-[0.08em] text-white/55 uppercase">
               Classification
             </span>
           </div>
@@ -247,7 +247,7 @@ export function HeartDiseaseVisual() {
           </div>
           <ArrowRight className="h-3 w-3 text-faint/60" strokeWidth={1.6} aria-hidden="true" />
           <div className="rounded-lg border border-white/[0.07] bg-white/[0.025] p-2.5">
-            <Braces className="h-3.5 w-3.5 text-[#b7a0ff]" strokeWidth={1.7} aria-hidden="true" />
+            <Braces className="h-3.5 w-3.5 text-[#a97bb5]" strokeWidth={1.7} aria-hidden="true" />
             <span className="mt-2 block text-[0.55rem] font-bold text-white/70">JSON API</span>
             <span className="mt-0.5 block font-mono text-[0.4rem] tracking-[0.05em] text-faint uppercase">
               Serve
@@ -288,8 +288,8 @@ export function ParkingVisual() {
       <div className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-[#100d18]/85 p-4 backdrop-blur-sm sm:p-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#c5a8ff]/20 bg-[#c5a8ff]/[0.07]">
-              <Car className="h-4 w-4 text-[#c5a8ff]" strokeWidth={1.7} aria-hidden="true" />
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#a97bb5]/20 bg-[#a97bb5]/[0.07]">
+              <Car className="h-4 w-4 text-[#a97bb5]" strokeWidth={1.7} aria-hidden="true" />
             </span>
             <div>
               <span className="block font-mono text-[0.55rem] tracking-[0.15em] text-white/70 uppercase">
@@ -359,7 +359,7 @@ export function ParkingVisual() {
               </span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#c5a8ff]/60" aria-hidden="true" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[#a97bb5]/60" aria-hidden="true" />
               <span className="font-mono text-[0.43rem] tracking-[0.07em] text-faint uppercase">
                 XAMPP
               </span>

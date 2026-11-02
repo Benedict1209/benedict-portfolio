@@ -1,272 +1,306 @@
-import { motion, useReducedMotion } from 'framer-motion'
-import {
-  ArrowDown,
-  ArrowRight,
-  ArrowUpRight,
-  Code2,
-  MapPin,
-  Trophy,
-} from 'lucide-react'
-import type { ReactNode } from 'react'
-import { SocialLinks } from './ui/SocialLinks'
+import { ArrowDown, ArrowUpRight, MapPin, Trophy } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { gmailComposeUrl, site } from '../lib/site'
+import { MagneticLink } from './ui/MagneticLink'
+import { Marquee } from './ui/Marquee'
 
-const codeLines: ReactNode[] = [
-  <>
-    <span className="text-[#c7a7ff]">const</span> <span className="text-[#8fb8ff]">developer</span>{' '}
-    <span className="text-[#6f7b90]">=</span> <span className="text-[#8b95a7]">{'{'}</span>
-  </>,
-  <>
-    <span className="pl-4 text-[#8fb8ff]">name</span>
-    <span className="text-[#6f7b90]">:</span> <span className="text-[#d8ff65]">"Benedict Naldo"</span>
-    <span className="text-[#8b95a7]">,</span>
-  </>,
-  <>
-    <span className="pl-4 text-[#8fb8ff]">role</span>
-    <span className="text-[#6f7b90]">:</span>{' '}
-    <span className="text-[#d8ff65]">"Software Developer"</span>
-    <span className="text-[#8b95a7]">,</span>
-  </>,
-  <>
-    <span className="pl-4 text-[#8fb8ff]">education</span>
-    <span className="text-[#6f7b90]">:</span>{' '}
-    <span className="text-[#d8ff65]">"MCA · 2026—Present"</span>
-    <span className="text-[#8b95a7]">,</span>
-  </>,
-  <>
-    <span className="pl-4 text-[#8fb8ff]">focus</span>
-    <span className="text-[#6f7b90]">:</span> <span className="text-[#8b95a7]">[</span>
-    <span className="text-[#d8ff65]">"Python"</span>
-    <span className="text-[#8b95a7]">,</span> <span className="text-[#d8ff65]">"Web"</span>
-    <span className="text-[#8b95a7]">,</span> <span className="text-[#d8ff65]">"ML"</span>
-    <span className="text-[#8b95a7]">]</span>
-    <span className="text-[#8b95a7]">,</span>
-  </>,
-  <>
-    <span className="pl-4 text-[#8fb8ff]">location</span>
-    <span className="text-[#6f7b90]">:</span> <span className="text-[#d8ff65]">"Coimbatore, IN"</span>
-    <span className="text-[#8b95a7]">,</span>
-  </>,
-  <>
-    <span className="pl-4 text-[#8fb8ff]">status</span>
-    <span className="text-[#6f7b90]">:</span>{' '}
-    <span className="text-[#d8ff65]">"open to opportunities"</span>
-    <span className="text-[#8b95a7]">,</span>
-  </>,
-  <>
-    <span className="text-[#8b95a7]">{'}'}</span>
-    <span className="text-[#8b95a7]">;</span>
-  </>,
-  <>&nbsp;</>,
-  <>
-    <span className="text-[#c7a7ff]">function</span> <span className="text-[#8fb8ff]">next</span>
-    <span className="text-[#8b95a7]">() {'{'}</span>
-  </>,
-  <>
-    <span className="pl-4 text-[#c7a7ff]">return</span> <span className="text-[#d8ff65]">"build. learn. repeat."</span>
-    <span className="text-[#8b95a7]">;</span>
-  </>,
-  <>
-    <span className="text-[#8b95a7]">{'}'}</span>
-  </>,
+gsap.registerPlugin(ScrollTrigger)
+
+const MARQUEE_ITEMS = [
+  'Python',
+  'Flask',
+  'JavaScript',
+  'PHP',
+  'SQL',
+  'pandas',
+  'Machine Learning',
+  'HTML',
+  'CSS',
 ]
 
-export function Hero() {
-  const prefersReducedMotion = useReducedMotion()
+const facts = [
+  { icon: Trophy, label: 'SIH 2026 finalist' },
+  { icon: MapPin, label: 'Coimbatore, India' },
+]
 
-  const fadeUp = (delay: number) => ({
-    initial: prefersReducedMotion ? false : { opacity: 0, y: 24 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.72, delay, ease: [0.22, 1, 0.36, 1] as const },
-  })
+export function Hero({ introReady }: { introReady: boolean }) {
+  const sectionRef = useRef<HTMLElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const asideRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!introReady || !sectionRef.current) return
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const ctx = gsap.context(() => {
+      const q = gsap.utils.selector(sectionRef)
+
+      const tl = gsap.timeline({ delay: 0.12, defaults: { ease: 'expo.out' } })
+
+      tl.fromTo(
+        q('[data-hero-line]'),
+        { yPercent: 118 },
+        { yPercent: 0, duration: 1.35, stagger: 0.1 },
+      )
+        .fromTo(
+          q('[data-hero-meta]'),
+          { opacity: 0, x: -26 },
+          { opacity: 1, x: 0, duration: 0.9 },
+          0.1,
+        )
+        .fromTo(
+          q('[data-hero-kicker]'),
+          { opacity: 0, y: 16 },
+          { opacity: 1, y: 0, duration: 0.8 },
+          0.5,
+        )
+        .fromTo(
+          q('[data-hero-copy]'),
+          { opacity: 0, y: 22 },
+          { opacity: 1, y: 0, duration: 0.9 },
+          0.62,
+        )
+        .fromTo(
+          q('[data-hero-cta]'),
+          { opacity: 0, y: 18 },
+          { opacity: 1, y: 0, duration: 0.8, stagger: 0.08 },
+          0.78,
+        )
+        .fromTo(
+          q('[data-hero-fact]'),
+          { opacity: 0, x: -18 },
+          { opacity: 1, x: 0, duration: 0.7, stagger: 0.07 },
+          0.9,
+        )
+        .fromTo(
+          q('[data-hero-aside]'),
+          { opacity: 0, x: 40 },
+          { opacity: 1, x: 0, duration: 1 },
+          0.45,
+        )
+        .fromTo(
+          q('[data-hero-band]'),
+          { opacity: 0, y: 28 },
+          { opacity: 1, y: 0, duration: 0.9 },
+          0.85,
+        )
+
+      // Scroll-linked hero exit: content lifts and recedes as About arrives.
+      gsap.to(contentRef.current, {
+        yPercent: -12,
+        opacity: 0.25,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 0.6,
+        },
+      })
+
+      gsap.to(asideRef.current, {
+        yPercent: -34,
+        opacity: 0,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '70% top',
+          scrub: 0.6,
+        },
+      })
+
+      // Headline drifts slightly slower than the page for depth.
+      gsap.to(q('[data-hero-title]'), {
+        yPercent: 16,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 0.8,
+        },
+      })
+    }, sectionRef.current)
+
+    return () => ctx.revert()
+  }, [introReady])
 
   return (
     <section
       id="home"
-      className="relative flex min-h-[100svh] items-center overflow-hidden pt-32 pb-20 sm:pt-36 lg:pt-32 lg:pb-24"
+      ref={sectionRef}
+      className="relative flex min-h-[100svh] flex-col justify-between overflow-x-clip pt-24 sm:pt-28 lg:pt-32"
     >
-      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div className="grid-fade absolute inset-0 opacity-70" />
-        <div className="absolute top-[8%] right-[-12%] h-[26rem] w-[26rem] rounded-full bg-sky/[0.06] blur-[100px] sm:h-[38rem] sm:w-[38rem]" />
-        <div className="absolute bottom-[10%] left-[-14%] h-[24rem] w-[24rem] rounded-full bg-accent/[0.035] blur-[110px]" />
-        <div className="absolute top-[18%] left-1/2 hidden h-[42rem] w-px bg-gradient-to-b from-transparent via-white/[0.06] to-transparent lg:block" />
+      <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+        <div className="hero-shade absolute inset-0" />
+        <div className="grid-fade absolute inset-0 opacity-45" />
+        <div className="absolute top-[6%] right-[-14%] h-[30rem] w-[30rem] rounded-full bg-sky/[0.06] blur-[120px] sm:h-[42rem] sm:w-[42rem]" />
+        <div className="absolute bottom-[6%] left-[-18%] h-[26rem] w-[26rem] rounded-full bg-accent/[0.05] blur-[120px]" />
       </div>
 
-      <div className="container-shell relative">
-        <div className="grid items-center gap-16 lg:grid-cols-[minmax(0,1.06fr)_minmax(24rem,0.94fr)] lg:gap-12 xl:gap-20">
-          <div className="max-w-2xl">
-            <motion.div
-              {...fadeUp(0.04)}
-              className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.03] py-2 pr-4 pl-3 backdrop-blur-sm"
+      <div className="container-shell relative w-full flex-1">
+        <div className="grid h-full grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1.16fr)_minmax(0,0.84fr)] lg:gap-8">
+          <div ref={contentRef} className="max-w-3xl pt-3 pb-5 sm:pt-6 sm:pb-10 lg:pb-12">
+            <div
+              data-hero-meta
+              className="flex flex-wrap items-center gap-3 sm:gap-4"
             >
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-55" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.03] py-1.5 pr-3.5 pl-2.5 backdrop-blur-sm">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-55" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+                </span>
+                <span className="font-mono text-[0.58rem] tracking-[0.17em] text-white/75 uppercase">
+                  Open to opportunities
+                </span>
               </span>
-              <span className="font-mono text-[0.61rem] tracking-[0.16em] text-white/80 uppercase">
-                Open to opportunities
+              <span className="font-mono text-[0.55rem] tracking-[0.18em] text-white/55 uppercase">
+                Portfolio / 2026
               </span>
-            </motion.div>
+            </div>
 
-            <motion.h1
-              {...fadeUp(0.1)}
-              className="mt-7 font-display text-[clamp(3.15rem,6.25vw,5.65rem)] leading-[0.94] font-semibold tracking-[-0.065em] text-white"
-            >
-              Building ideas
-              <span className="block">
-                into <span className="font-serif font-normal text-accent italic">digital</span>
+            <h1 className="mt-6 font-display text-[clamp(3.5rem,9.6vw,8.4rem)] leading-[0.8] font-medium tracking-[-0.045em] text-white uppercase sm:mt-7">
+              <span data-hero-title className="block">
+                <span className="block overflow-hidden pb-[0.04em]">
+                  <span data-hero-line className="block will-change-transform">
+                    Benedict
+                  </span>
+                </span>
+                <span className="block overflow-hidden pb-[0.04em]">
+                  <span
+                    data-hero-line
+                    className="flex items-baseline gap-[0.06em] will-change-transform"
+                  >
+                    Naldo
+                    <span className="text-accent">.</span>
+                  </span>
+                </span>
               </span>
-              <span className="block">experiences.</span>
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              {...fadeUp(0.18)}
-              className="mt-7 max-w-[35rem] text-[0.98rem] leading-7 text-muted sm:text-[1.06rem] sm:leading-8"
+            <p
+              data-hero-kicker
+              className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1.5 font-serif text-[clamp(1.1rem,1.9vw,1.5rem)] leading-tight text-white/80 italic sm:mt-5"
             >
-              I'm Benedict Naldo, an MCA student and aspiring software developer passionate about
-              Python, web development, and machine learning.
-            </motion.p>
+              Software developer
+              <span className="h-px w-8 bg-accent/70" aria-hidden="true" />
+              <span className="not-italic text-white/50">MCA student</span>
+            </p>
 
-            <motion.div
-              {...fadeUp(0.24)}
-              className="mt-6 flex items-center gap-2 text-[0.78rem] font-medium text-faint"
+            <p
+              data-hero-copy
+              className="mt-4 max-w-md text-[0.92rem] leading-7 text-white/60 sm:text-[0.98rem] sm:leading-8"
             >
-              <MapPin className="h-3.5 w-3.5 text-accent/75" strokeWidth={1.8} aria-hidden="true" />
-              <span>Coimbatore, India</span>
-              <span className="mx-1.5 h-1 w-1 rounded-full bg-white/20" aria-hidden="true" />
-              <span>Available for opportunities</span>
-            </motion.div>
+              I build thoughtful web and machine-learning experiences with Python, Flask, and
+              JavaScript — turning ideas into software that is clear, useful, and considered.
+            </p>
 
-            <motion.div {...fadeUp(0.3)} className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a href="#projects" className="btn btn-primary group">
-                View my projects
-                <ArrowRight
-                  className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5"
-                  strokeWidth={2}
-                  aria-hidden="true"
-                />
+            <div className="mt-6 flex flex-wrap items-center gap-3 sm:mt-8">
+              <span data-hero-cta className="inline-flex">
+                <MagneticLink
+                  href="#projects"
+                  className="btn btn-primary"
+                  ariaLabel="Explore selected projects"
+                >
+                  Explore the work
+                  <ArrowDown className="h-3.5 w-3.5" strokeWidth={2} aria-hidden="true" />
+                </MagneticLink>
+              </span>
+              <span data-hero-cta className="inline-flex">
+                <MagneticLink
+                  href="#contact"
+                  className="btn btn-secondary"
+                  ariaLabel="Get in touch with Benedict"
+                >
+                  Get in touch
+                  <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} aria-hidden="true" />
+                </MagneticLink>
+              </span>
+            </div>
+
+            <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2.5 border-t border-white/[0.08] pt-4 sm:mt-9">
+              {facts.map(({ icon: Icon, label }) => (
+                <span
+                  key={label}
+                  data-hero-fact
+                  className="flex items-center gap-2 font-mono text-[0.54rem] tracking-[0.14em] text-white/55 uppercase"
+                >
+                  <Icon className="h-3 w-3 text-accent/70" strokeWidth={1.7} aria-hidden="true" />
+                  {label}
+                </span>
+              ))}
+              <a
+                data-hero-fact
+                href={gmailComposeUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden items-center gap-2 font-mono text-[0.54rem] tracking-[0.14em] text-white/55 uppercase transition hover:text-accent sm:flex"
+              >
+                {site.email}
               </a>
-              <a href="#contact" className="btn btn-secondary group">
-                Let's connect
-                <ArrowUpRight
-                  className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  strokeWidth={1.8}
-                  aria-hidden="true"
-                />
-              </a>
-            </motion.div>
-
-            <motion.div {...fadeUp(0.38)} className="mt-9 flex items-center gap-4">
-              <span className="eyebrow text-faint">Find me on</span>
-              <span className="h-px w-7 bg-white/10" aria-hidden="true" />
-              <SocialLinks />
-            </motion.div>
+            </div>
           </div>
 
-          <motion.div
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 30, rotate: 1.2 }}
-            animate={{ opacity: 1, y: 0, rotate: 0 }}
-            transition={{ duration: 0.9, delay: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="relative mx-auto w-full max-w-[34rem] px-1 py-9 sm:px-3 lg:mx-0 lg:max-w-none"
+          <div
+            ref={asideRef}
+            className="relative hidden h-full min-h-[26rem] items-center justify-end lg:flex"
+            aria-hidden="true"
           >
-            <div className="pointer-events-none absolute inset-[-2rem] -z-10" aria-hidden="true">
-              <div className="absolute inset-[14%] rounded-full border border-white/[0.05]" />
-              <div className="absolute inset-[4%] rounded-full border border-dashed border-white/[0.035]" />
-              <div className="absolute inset-[18%] rounded-full bg-[radial-gradient(circle,rgba(216,255,101,0.06),transparent_68%)] blur-2xl" />
-              <div className="absolute top-1/2 left-1/2 h-[1px] w-[72%] -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-transparent via-white/[0.05] to-transparent" />
-              <div className="absolute top-1/2 left-1/2 h-[72%] w-[1px] -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b from-transparent via-white/[0.05] to-transparent" />
+            <div data-hero-aside className="relative w-full max-w-[19rem]">
+              <div className="flex items-center justify-between border-t border-white/15 pt-3">
+                <span className="font-mono text-[0.52rem] tracking-[0.2em] text-white/45 uppercase">
+                  Particle study / 001
+                </span>
+                <span className="font-mono text-[0.52rem] tracking-[0.2em] text-accent">
+                  Live
+                </span>
+              </div>
+
+              <p className="mt-5 max-w-[15rem] font-display text-[1.35rem] leading-[1.15] tracking-[-0.02em] text-white/80 uppercase">
+                Form follows
+                <br />
+                attention.
+              </p>
+
+              <p className="mt-3 max-w-[15rem] text-[0.72rem] leading-6 text-white/40">
+                The artwork responds to scroll and cursor. Keep moving to see it reorganise.
+              </p>
+
+              <div className="mt-8 flex items-end justify-between border-t border-white/[0.08] pt-4">
+                <span className="vertical-rl font-mono text-[0.5rem] tracking-[0.32em] text-white/30 uppercase">
+                  Scroll to transform
+                </span>
+                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15">
+                  <ArrowDown className="h-4 w-4 text-white/55" strokeWidth={1.5} />
+                </span>
+              </div>
+
+              <span className="absolute -top-24 -right-6 font-display text-[7.5rem] leading-none font-semibold tracking-[-0.08em] text-white/[0.035]">
+                01
+              </span>
             </div>
-
-            <div className="absolute top-0 right-2 z-20 sm:right-5">
-              <div className="flex items-center gap-2 rounded-full border border-accent/20 bg-[#10150c]/95 py-2 pr-3.5 pl-2.5 shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/10">
-                  <Trophy className="h-3 w-3 text-accent" strokeWidth={1.9} aria-hidden="true" />
-                </span>
-                <span className="font-mono text-[0.56rem] tracking-[0.12em] text-accent uppercase">
-                  SIH 2026 · Finalist
-                </span>
-              </div>
-            </div>
-
-            <div className="glass relative overflow-hidden rounded-[1.35rem]">
-              <div className="flex items-center justify-between border-b border-white/[0.07] px-4 py-3">
-                <div className="flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#ff6b6b]/80" aria-hidden="true" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#ffd36b]/80" aria-hidden="true" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#74e08b]/80" aria-hidden="true" />
-                </div>
-                <div className="flex items-center gap-1.5 rounded-md border border-white/[0.06] bg-white/[0.03] px-2.5 py-1">
-                  <Code2 className="h-3 w-3 text-accent/80" strokeWidth={1.8} aria-hidden="true" />
-                  <span className="font-mono text-[0.59rem] text-white/60">developer.ts</span>
-                </div>
-                <span className="font-mono text-[0.54rem] text-faint">UTF-8</span>
-              </div>
-
-              <div className="p-4 font-mono text-[0.65rem] leading-[1.85] sm:p-5 sm:text-[0.7rem] md:text-[0.73rem]">
-                <div className="mb-3.5 flex items-center justify-between">
-                  <span className="text-[0.56rem] tracking-[0.1em] text-faint uppercase">
-                    ~/portfolio
-                  </span>
-                  <span className="flex items-center gap-1.5 text-[0.53rem] tracking-[0.08em] text-accent/70 uppercase">
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
-                    ready
-                  </span>
-                </div>
-                <div className="space-y-0.5 overflow-x-auto pb-1 text-[#a7afbd]">
-                  {codeLines.map((line, index) => (
-                    <div className="terminal-line" key={index}>
-                      <span className="terminal-number">{String(index + 1).padStart(2, '0')}</span>
-                      <span className="whitespace-pre">{line}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between border-t border-white/[0.07] bg-black/15 px-4 py-3">
-                <div className="flex items-center gap-2 font-mono text-[0.58rem] text-white/45">
-                  <span className="text-accent">$</span>
-                  <span>python --future</span>
-                  <span className="inline-block h-3 w-[5px] animate-pulse bg-accent/80" aria-hidden="true" />
-                </div>
-                <span className="hidden font-mono text-[0.52rem] tracking-[0.1em] text-faint uppercase sm:block">
-                  Python · Flask · ML
-                </span>
-              </div>
-            </div>
-
-            <div className="absolute bottom-0 left-0 z-20 sm:left-2">
-              <div className="flex items-center gap-2.5 rounded-xl border border-white/10 bg-[#0c1016]/95 px-3.5 py-2.5 shadow-[0_16px_50px_rgba(0,0,0,0.4)] backdrop-blur-xl">
-                <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-sky/20 bg-sky/[0.08]">
-                  <MapPin className="h-3.5 w-3.5 text-sky" strokeWidth={1.8} aria-hidden="true" />
-                </span>
-                <span>
-                  <span className="block font-mono text-[0.5rem] tracking-[0.12em] text-faint uppercase">
-                    Based in
-                  </span>
-                  <span className="mt-0.5 block text-[0.68rem] font-semibold text-white">
-                    Coimbatore, India
-                  </span>
-                </span>
-              </div>
-            </div>
-          </motion.div>
+          </div>
         </div>
+      </div>
 
-        <motion.div
-          initial={prefersReducedMotion ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="mt-16 hidden items-center justify-between border-t border-white/[0.06] pt-5 lg:flex"
-        >
-          <span className="font-mono text-[0.58rem] tracking-[0.15em] text-faint uppercase">
+      <div data-hero-band className="relative w-full border-t border-white/[0.07]">
+        <div className="container-shell flex items-center justify-between gap-6 py-2.5">
+          <span className="font-mono text-[0.5rem] tracking-[0.2em] text-white/55 uppercase">
+            Toolkit
+          </span>
+          <span className="hidden font-mono text-[0.5rem] tracking-[0.2em] text-white/55 uppercase sm:block">
             Scroll to explore
           </span>
-          <div className="flex items-center gap-3 text-faint">
-            <span className="font-mono text-[0.58rem] tracking-[0.14em] uppercase">
-              Aspiring software developer
-            </span>
-            <ArrowDown className="h-3.5 w-3.5 text-accent/70" strokeWidth={1.7} aria-hidden="true" />
-          </div>
-        </motion.div>
+        </div>
+        <Marquee
+          items={MARQUEE_ITEMS}
+          className="pb-2"
+          itemClassName="font-display text-[clamp(1.2rem,2.3vw,1.9rem)] font-medium tracking-[-0.01em] text-white/25 uppercase"
+        />
       </div>
     </section>
   )

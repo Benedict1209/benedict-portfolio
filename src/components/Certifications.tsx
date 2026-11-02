@@ -1,65 +1,111 @@
-import { BadgeCheck, CodeXml, MessagesSquare, Sparkles, Trophy } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
-import { Reveal } from './ui/Reveal'
+import { BadgeCheck, Trophy } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { certifications } from '../lib/content'
 import { SectionHeading } from './ui/SectionHeading'
+import { SpotlightCard } from './ui/SpotlightCard'
 
-const certifications: {
-  title: string
-  issuer: string
-  category: string
-  icon: LucideIcon
-}[] = [
-  {
-    title: 'HTML, CSS and JavaScript',
-    issuer: 'Coursera',
-    category: 'Certificate',
-    icon: CodeXml,
-  },
-  {
-    title: 'Interpersonal Skills',
-    issuer: 'NPTEL',
-    category: 'Certificate',
-    icon: MessagesSquare,
-  },
-  {
-    title: "Neuroverse'26",
-    issuer: 'KPR Institute of Engineering and Technology',
-    category: 'Participant',
-    icon: Sparkles,
-  },
-]
+gsap.registerPlugin(ScrollTrigger)
 
 export function Certifications() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const headingRef = useRef<HTMLDivElement>(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  useEffect(() => {
+    if (!sectionRef.current) return
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        headingRef.current,
+        { x: -75, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 78%',
+            toggleActions: 'play none none none',
+          },
+        },
+      )
+
+      gsap.fromTo(
+        gsap.utils.selector(sectionRef)('[data-cert-feature]'),
+        { y: 42, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: gsap.utils.selector(sectionRef)('[data-cert-feature]')[0],
+            start: 'top 88%',
+            toggleActions: 'play none none none',
+          },
+        },
+      )
+
+      // Certification cards: alternate left/right entrances.
+      certifications.forEach((_, index) => {
+        const el = cardRefs.current[index]
+        if (!el) return
+        const fromLeft = index % 2 === 0
+        gsap.fromTo(
+          el,
+          { x: fromLeft ? -64 : 64, opacity: 0, scale: 0.96 },
+          {
+            x: 0,
+            opacity: 1,
+            scale: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 92%',
+              end: 'top 58%',
+              scrub: 0.5,
+            },
+          },
+        )
+      })
+    }, sectionRef.current)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section id="certifications" className="section-shell">
+    <section id="certifications" className="section-shell" ref={sectionRef}>
       <div className="container-shell">
-        <Reveal>
-          <SectionHeading
-            index="06"
+          <div ref={headingRef}>
+            <SectionHeading
+              index="06"
             eyebrow="Certifications & achievements"
-            title={
-              <>
-                Proof of <span className="font-serif font-normal text-accent italic">curiosity.</span>
-              </>
-            }
+            title={[
+              'Proof of',
+              <span key="curiosity" className="font-serif font-normal text-accent italic">
+                curiosity.
+              </span>,
+            ]}
             description="A record of the courses, events, and moments that have pushed my learning forward."
           />
-        </Reveal>
+          </div>
 
-        <Reveal delay={0.08} className="mt-12">
-          <article className="relative overflow-hidden rounded-[1.7rem] bg-accent p-6 text-ink sm:p-8">
+          <article
+            data-cert-feature
+            className="relative mt-12 overflow-hidden rounded-[1.8rem] bg-accent p-6 text-ink sm:p-9"
+          >
             <div
               className="dot-grid pointer-events-none absolute inset-0 opacity-[0.11]"
               aria-hidden="true"
             />
-            <div
-              className="pointer-events-none absolute -top-24 -right-16 h-72 w-72 rounded-full border border-ink/[0.08]"
-              aria-hidden="true"
-            />
-            <div
-              className="pointer-events-none absolute top-10 right-4 h-44 w-44 rounded-full border border-ink/[0.08]"
-              aria-hidden="true"
-            />
+            <div className="pointer-events-none absolute -top-28 -right-20 h-80 w-80 rounded-full border border-ink/[0.08]" aria-hidden="true" />
+            <div className="pointer-events-none absolute top-10 right-4 h-52 w-52 rounded-full border border-ink/[0.08]" aria-hidden="true" />
+            <div className="pointer-events-none absolute right-24 bottom-0 h-24 w-24 rounded-full bg-ink/[0.04] blur-2xl" aria-hidden="true" />
 
             <div className="relative flex flex-col justify-between gap-8 md:flex-row md:items-center">
               <div className="max-w-2xl">
@@ -72,7 +118,7 @@ export function Certifications() {
                   </span>
                 </div>
 
-                <h3 className="mt-6 font-display text-[clamp(2rem,4.2vw,3.5rem)] leading-[0.98] font-semibold tracking-[-0.055em]">
+                <h3 className="mt-6 font-display text-[clamp(2rem,4.2vw,3.5rem)] leading-[0.96] font-semibold tracking-[-0.055em]">
                   Smart India Hackathon
                   <br />
                   2026 finalist.
@@ -97,10 +143,13 @@ export function Certifications() {
                 </div>
               </div>
 
-              <div className="relative hidden h-44 w-44 flex-none items-center justify-center md:flex">
+              <div className="relative hidden h-48 w-48 flex-none items-center justify-center md:flex">
                 <span className="absolute inset-0 rounded-full border border-ink/15" aria-hidden="true" />
-                <span className="absolute inset-5 rounded-full border border-dashed border-ink/20" aria-hidden="true" />
-                <span className="absolute inset-10 rounded-full border border-ink/15" aria-hidden="true" />
+                <span
+                  className="orbital-spin absolute inset-4 rounded-full border border-dashed border-ink/20"
+                  aria-hidden="true"
+                />
+                <span className="absolute inset-9 rounded-full border border-ink/15" aria-hidden="true" />
                 <span className="relative flex h-20 w-20 items-center justify-center rounded-full border border-ink/20 bg-ink text-accent shadow-[0_16px_40px_rgba(8,10,15,0.2)]">
                   <Trophy className="h-8 w-8" strokeWidth={1.4} aria-hidden="true" />
                 </span>
@@ -110,13 +159,20 @@ export function Certifications() {
               </div>
             </div>
           </article>
-        </Reveal>
 
-        <div className="mt-6 grid gap-3.5 md:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-3.5 md:grid-cols-3">
           {certifications.map(({ title, issuer, category, icon: Icon }, index) => (
-            <Reveal key={title} delay={0.07 + index * 0.05}>
-              <article className="group relative h-full overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5 transition duration-300 hover:-translate-y-1 hover:border-white/[0.14] hover:bg-white/[0.033] sm:p-6">
-                <div className="flex items-start justify-between">
+              <div
+                key={title}
+                ref={(el: HTMLDivElement | null) => {
+                  cardRefs.current[index] = el
+                }}
+              >
+                <SpotlightCard
+                  as="article"
+                className="group relative h-full overflow-hidden rounded-2xl border border-white/[0.07] bg-[#080a0f]/75 p-5 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-white/[0.14] hover:bg-[#0a0c12]/85 sm:p-6"
+              >
+                <div className="relative z-10 flex items-start justify-between">
                   <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.035] text-accent/70 transition group-hover:border-accent/20 group-hover:text-accent">
                     <Icon className="h-4 w-4" strokeWidth={1.65} aria-hidden="true" />
                   </span>
@@ -128,21 +184,21 @@ export function Certifications() {
                   </div>
                 </div>
 
-                <h3 className="mt-6 font-display text-[0.97rem] leading-snug font-semibold tracking-[-0.02em] text-white">
+                <h3 className="relative z-10 mt-6 font-display text-[0.97rem] leading-snug font-semibold tracking-[-0.02em] text-white">
                   {title}
                 </h3>
-                <p className="mt-2 text-[0.74rem] leading-5 text-faint">{issuer}</p>
+                <p className="relative z-10 mt-2 text-[0.74rem] leading-5 text-muted/80">{issuer}</p>
 
-                <div className="mt-5 flex items-center justify-between border-t border-white/[0.06] pt-4">
+                <div className="relative z-10 mt-5 flex items-center justify-between border-t border-white/[0.06] pt-4">
                   <span className="font-mono text-[0.46rem] tracking-[0.11em] text-faint uppercase">
                     Learning record
                   </span>
-                  <span className="font-mono text-[0.46rem] tracking-[0.1em] text-white/20">
+                  <span className="font-mono text-[0.46rem] tracking-[0.1em] text-white/55">
                     0{index + 1}
                   </span>
                 </div>
-              </article>
-            </Reveal>
+              </SpotlightCard>
+              </div>
           ))}
         </div>
       </div>

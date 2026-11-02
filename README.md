@@ -7,7 +7,9 @@ A production-ready personal portfolio for Benedict Naldo P, an MCA student and a
 
 ## Overview
 
-The site is a single-page application with a fixed navigation bar, hero section, and dedicated sections for About, Skills, Projects, Experience, Education, Certifications, and Contact. It is a fully static frontend: there is no backend, database, or server-side API.
+The site is a single-page application built around a "Nocturne Studio" visual system: a dark editorial canvas, oversized display typography, lime and periwinkle accents, and an inverted bone-colored Contact/Footer chapter. It includes a floating navigation dock, hero, and dedicated sections for About, Skills, Projects, Experience, Education, Certifications, and Contact. It is a fully static frontend: there is no backend, database, or server-side API.
+
+The interface is responsive, keyboard accessible, and respects `prefers-reduced-motion`.
 
 ## Technologies
 
@@ -16,7 +18,7 @@ The site is a single-page application with a fixed navigation bar, hero section,
 - Tailwind CSS v4
 - Framer Motion
 - Lucide React and custom brand icons
-- Local variable fonts via Fontsource
+- Local variable fonts via Fontsource (Bricolage Grotesque, Manrope, Newsreader, JetBrains Mono)
 - Oxlint for linting
 
 ## Installation
@@ -64,6 +66,14 @@ public/
 src/
   components/
     ui/
+      AnimatedHeading.tsx
+      MagneticLink.tsx
+      Marquee.tsx
+      Reveal.tsx
+      ScrollProgress.tsx
+      SectionHeading.tsx
+      SocialLinks.tsx
+      SpotlightCard.tsx
     About.tsx
     Certifications.tsx
     Contact.tsx
@@ -75,7 +85,9 @@ src/
     ProjectVisuals.tsx
     Projects.tsx
     Skills.tsx
-  lib/site.ts
+  lib/
+    content.ts
+    site.ts
   App.tsx
   index.css
   main.tsx
@@ -84,6 +96,7 @@ src/
 ## Content and assets
 
 - Shared contact information, navigation, and education data live in `src/lib/site.ts`.
+- Project, skill, and certification content lives in `src/lib/content.ts`.
 - The downloadable resume is a local PDF at `public/resume/Benedict-Naldo-Resume.pdf`.
 - The social preview image is at `public/og-image.png`.
 - Project cards intentionally do not include repository buttons because no verified project repository URLs were provided. Add a link only when a public repository exists.
@@ -92,8 +105,8 @@ src/
 
 - **Resume:** replace `public/resume/Benedict-Naldo-Resume.pdf` with the new PDF using the same filename, or update `resume` in `src/lib/site.ts` if the path changes.
 - **Images:** add files under `public/` and reference them with an absolute path such as `/images/name.png`.
-- **Projects:** edit the project data in `src/components/Projects.tsx`. Custom artwork lives in `src/components/ProjectVisuals.tsx`.
-- **Certifications:** edit the `certifications` array in `src/components/Certifications.tsx`.
+- **Projects and skills:** edit the data in `src/lib/content.ts`. Custom artwork lives in `src/components/ProjectVisuals.tsx`.
+- **Certifications:** edit the `certifications` array in `src/lib/content.ts`.
 - **Contact details and social links:** edit `src/lib/site.ts`.
 
 ## Deployment
@@ -121,7 +134,7 @@ Every push to `main` triggers a new production deployment. Pushes to other branc
 
 ## Contact form
 
-The form validates each field on the client and then opens the visitor's email app with a prefilled message using a `mailto:` link. It does not send or store data. The confirmation state clearly tells the visitor that no message has been transmitted by the website.
+The form validates each field on the client and then opens a prefilled Gmail compose draft in a new tab using `gmailComposeUrl()` from `src/lib/site.ts`. It does not send or store data. The confirmation state clearly tells the visitor that no message has been transmitted by the website and offers a manual link to the draft if the new tab is blocked.
 
 ## Repository notes
 
